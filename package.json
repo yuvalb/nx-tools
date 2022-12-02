@@ -18,8 +18,8 @@
   "homepage": "https://github.com/yuvalb/nx-semantic-release#readme",
   "scripts": {
     "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test"
+    "build": "nx run-many --target=build",
+    "test": "nx run-many --target=test"
   },
   "private": true,
   "devDependencies": {
