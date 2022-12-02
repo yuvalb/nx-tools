@@ -10,7 +10,7 @@ plugins:
   - '@semantic-release/release-notes-generator'
   - - '@semantic-release/npm'
     - pkgRoot: ./dist/packages/nx-semantic-release
-    - tarballDir: ./dist/packages/nx-semantic-release
+      tarballDir: ./dist/packages/nx-semantic-release
   - - '@semantic-release/github'
     - assets:
         - path: ./dist/packages/nx-semantic-release/*.tgz
