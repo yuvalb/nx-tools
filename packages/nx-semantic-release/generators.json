@@ -7,6 +7,11 @@
       "factory": "./src/generators/nx-semantic-release/generator",
       "schema": "./src/generators/nx-semantic-release/schema.json",
       "description": "nx-semantic-release generator"
+    },
+    "lib": {
+      "factory": "./src/generators/lib/generator",
+      "schema": "./src/generators/lib/schema.json",
+      "description": "lib generator"
     }
   }
 }
