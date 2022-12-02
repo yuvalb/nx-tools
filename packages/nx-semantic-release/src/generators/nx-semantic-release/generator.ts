@@ -66,7 +66,7 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@yuvalb/nx-semantic-release:build',
+        executor: '@yuberto/nx-semantic-release:build',
       },
     },
     tags: normalizedOptions.parsedTags,

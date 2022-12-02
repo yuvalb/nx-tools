@@ -15,7 +15,7 @@ describe('nx-semantic-release e2e', () => {
   // are not dependant on one another.
   beforeAll(() => {
     ensureNxProject(
-      '@yuvalb/nx-semantic-release',
+      '@yuberto/nx-semantic-release',
       'dist/packages/nx-semantic-release'
     );
   });
@@ -29,7 +29,7 @@ describe('nx-semantic-release e2e', () => {
   it('should create nx-semantic-release', async () => {
     const project = uniq('nx-semantic-release');
     await runNxCommandAsync(
-      `generate @yuvalb/nx-semantic-release:nx-semantic-release ${project}`
+      `generate @yuberto/nx-semantic-release:nx-semantic-release ${project}`
     );
     const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain('Executor ran');
@@ -39,7 +39,7 @@ describe('nx-semantic-release e2e', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('nx-semantic-release');
       await runNxCommandAsync(
-        `generate @yuvalb/nx-semantic-release:nx-semantic-release ${project} --directory subdir`
+        `generate @yuberto/nx-semantic-release:nx-semantic-release ${project} --directory subdir`
       );
       expect(() =>
         checkFilesExist(`libs/subdir/${project}/src/index.ts`)
@@ -51,11 +51,11 @@ describe('nx-semantic-release e2e', () => {
     it('should add tags to the project', async () => {
       const projectName = uniq('nx-semantic-release');
       ensureNxProject(
-        '@yuvalb/nx-semantic-release',
+        '@yuberto/nx-semantic-release',
         'dist/packages/nx-semantic-release'
       );
       await runNxCommandAsync(
-        `generate @yuvalb/nx-semantic-release:nx-semantic-release ${projectName} --tags e2etag,e2ePackage`
+        `generate @yuberto/nx-semantic-release:nx-semantic-release ${projectName} --tags e2etag,e2ePackage`
       );
       const project = readJson(`libs/${projectName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

@@ -18,7 +18,7 @@ _[Source](https://github.com/semantic-release/semantic-release/blob/master/docs/
 The following will create a library named `your-library-name` with default configuration to publish to both NPM and Github registries.
 
 ```sh
-nx g @yuvalb/nx-semantic-release:library your-library-name --registry=npm,github
+nx g @yuberto/nx-semantic-release:library your-library-name --registry=npm,github
 ```
 
 ### Generate a workflow
@@ -26,5 +26,5 @@ nx g @yuvalb/nx-semantic-release:library your-library-name --registry=npm,github
 The following will generate a Github workflow named `your-workflow-name` to publish your library on every push to branches `main` and `alpha`
 
 ```sh
-nx g @yuvalb/nx-semantic-release:workflow your-workflow-name --branch=main,alpha --ci=github
+nx g @yuberto/nx-semantic-release:workflow your-workflow-name --branch=main,alpha --ci=github
 ```
