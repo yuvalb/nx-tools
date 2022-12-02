@@ -1,9 +1,9 @@
 name: Node.js CI
 on:
   push:
-    branches: [ master, alpha ]
+    branches: [master, alpha]
   pull_request:
-    branches: [ master, alpha ]
+    branches: [master, alpha]
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
@@ -13,14 +13,13 @@ jobs:
       matrix:
         node-version: [16.x, 18.x]
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test -- --watch=false --browsers=ChromeHeadless
-    - run: npx semantic-release
-      working-directory: ./dist/packages/nx-semantic-release
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: npx semantic-release
