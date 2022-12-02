@@ -8,16 +8,16 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { LibGeneratorSchema } from './schema';
+import { LibraryGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends LibGeneratorSchema {
+interface NormalizedSchema extends LibraryGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
 }
 
-function normalizeOptions(tree: Tree, options: LibGeneratorSchema): NormalizedSchema {
+function normalizeOptions(tree: Tree, options: LibraryGeneratorSchema): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
@@ -47,7 +47,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     generateFiles(tree, path.join(__dirname, 'files'), options.projectRoot, templateOptions);
 }
 
-export default async function (tree: Tree, options: LibGeneratorSchema) {
+export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(
     tree,

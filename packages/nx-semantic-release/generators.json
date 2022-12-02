@@ -8,10 +8,11 @@
       "schema": "./src/generators/nx-semantic-release/schema.json",
       "description": "nx-semantic-release generator"
     },
-    "lib": {
-      "factory": "./src/generators/lib/generator",
-      "schema": "./src/generators/lib/schema.json",
-      "description": "lib generator"
+    "library": {
+      "factory": "./src/generators/library/generator",
+      "schema": "./src/generators/library/schema.json",
+      "aliases": ["lib"],
+      "description": "Create a publishable npm library."
     }
   }
 }
