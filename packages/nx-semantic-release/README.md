@@ -1,11 +1,30 @@
 # nx-semantic-release
 
-This library was generated with [Nx](https://nx.dev).
+An nx generator to create publishable node packages using [semantic-release](https://github.com/semantic-release/semantic-release).
 
-## Building
+## Prerequisites
 
-Run `nx build nx-semantic-release` to build the library.
+Before you can start:
 
-## Running unit tests
+- Configure your Continuous Integration service to run [semantic-release](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/ci-configuration.md#run-semantic-release-only-after-all-tests-succeeded)
+- Configure your Git repository and package manager repository [authentication](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/ci-configuration.md#authentication) in your Continuous Integration service
 
-Run `nx test nx-semantic-release` to execute the unit tests via [Jest](https://jestjs.io).
+_[Source](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/getting-started.md#getting-started)_
+
+## Usage
+
+### Generate a library
+
+The following will create a library named `your-library-name` with default configuration to publish to both NPM and Github registries.
+
+```sh
+nx g @yuberto/nx-semantic-release:library your-library-name --registry=npm,github
+```
+
+### Generate a workflow
+
+The following will generate a Github workflow named `your-workflow-name` to publish your library on every push to branches `main` and `alpha`
+
+```sh
+nx g @yuberto/nx-semantic-release:workflow your-workflow-name --branch=main,alpha --ci=github
+```

@@ -14,4 +14,4 @@ plugins:
   - - '@semantic-release/github'
     - assets:
         - path: ./dist/packages/nx-semantic-release/*.tgz
-          label: nx-semantic-release
+          label: nx-semantic-release (tar.gz)

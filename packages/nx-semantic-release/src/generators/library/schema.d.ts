@@ -1,5 +1,6 @@
-export interface LibraryGeneratorSchema {
-    name: string;
-    tags?: string;
-    directory?: string;
+import { Schema } from '@nrwl/workspace/src/generators/library/schema';
+
+export interface LibraryGeneratorSchema extends Schema {
+  branches: string;
+  prereleaseBranches?: string;
 }

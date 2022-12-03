@@ -20,6 +20,10 @@
       "rules": {
         "@nrwl/nx/nx-plugin-checks": "error"
       }
+    },
+    {
+      "files": ["*__template__"],
+      "rules": {}
     }
   ]
 }
