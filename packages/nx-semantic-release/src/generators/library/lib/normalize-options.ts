@@ -5,9 +5,9 @@ export interface NormalizedSchema extends LibraryGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
-  parsedTags: string[];
   parsedBranches: string[];
   parsedPrereleaseBranches: string[];
+  npmScope: string;
 }
 
 export function normalizeOptions(
@@ -20,22 +20,21 @@ export function normalizeOptions(
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
   const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
 
   const parsedBranches = options.branches.split(',').map((s) => s.trim());
   const parsedPrereleaseBranches = options.prereleaseBranches
     ? options.prereleaseBranches.split(',').map((s) => s.trim())
     : [];
 
+  const { npmScope } = getWorkspaceLayout(tree);
+
   return {
     ...options,
     projectName,
     projectRoot,
     projectDirectory,
-    parsedTags,
     parsedBranches,
     parsedPrereleaseBranches,
+    npmScope,
   };
 }

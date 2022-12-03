@@ -1,4 +1,10 @@
-import { Tree, names, offsetFromRoot, generateFiles } from '@nrwl/devkit';
+import {
+  Tree,
+  names,
+  offsetFromRoot,
+  generateFiles,
+  logger,
+} from '@nrwl/devkit';
 import * as path from 'path';
 import { NormalizedSchema } from './normalize-options';
 
