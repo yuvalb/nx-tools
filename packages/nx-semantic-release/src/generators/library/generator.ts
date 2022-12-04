@@ -1,37 +1,7 @@
-import {
-  formatFiles,
-  getImportPath,
-  installPackagesTask,
-  readJson,
-  Tree,
-} from '@nrwl/devkit';
+import { formatFiles, installPackagesTask, Tree } from '@nrwl/devkit';
 import { LibraryGeneratorSchema } from './schema';
-import { addFiles, NormalizedSchema, normalizeOptions } from './lib';
-import { getRootTsConfigPathInTree } from '@nrwl/workspace/src/utilities/typescript';
-import { generate } from 'nx/src/command-line/generate';
-
-async function ensureLibrary(
-  tree: Tree,
-  options: NormalizedSchema
-): Promise<any | null> {
-  const importPath =
-    options.importPath ||
-    getImportPath(options.npmScope, options.projectDirectory);
-
-  const {
-    compilerOptions: {
-      paths: { [importPath]: libraryPath },
-    },
-  } = readJson(tree, getRootTsConfigPathInTree(tree));
-
-  if (!libraryPath) {
-    return generate('', {
-      generator: 'library',
-      interactive: true,
-      name: options.name,
-    });
-  }
-}
+import { addFiles, normalizeOptions } from './lib';
+import { ensureLibrary } from './lib/ensure-library';
 
 export async function libraryGenerator(
   tree: Tree,
@@ -39,7 +9,7 @@ export async function libraryGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  await ensureLibrary(tree, normalizedOptions);
+  const ensureLibraryTask = await ensureLibrary(tree, normalizedOptions);
 
   addFiles(tree, normalizedOptions);
 
@@ -47,7 +17,10 @@ export async function libraryGenerator(
     await formatFiles(tree);
   }
 
-  return () => installPackagesTask(tree);
+  return async () => {
+    ensureLibraryTask && (await ensureLibraryTask());
+    installPackagesTask(tree);
+  };
 }
 
 export default libraryGenerator;
