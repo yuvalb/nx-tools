@@ -7,4 +7,5 @@ export interface LibraryGeneratorSchema {
   directory?: string;
   skipFormat?: boolean;
   importPath?: string;
+  libraryGenerator?: string;
 }

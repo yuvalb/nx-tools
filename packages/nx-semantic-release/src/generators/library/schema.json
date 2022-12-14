@@ -47,8 +47,12 @@
     "importPath": {
       "type": "string",
       "description": "The library name used to import it, like `@myorg/my-awesome-lib`."
+    },
+    "libraryGenerator": {
+      "type": "string",
+      "description": "The generator used to generate a library, like `nx:library`. If the generator requires extra options, pass them as well."
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "required": ["name", "branches"]
 }

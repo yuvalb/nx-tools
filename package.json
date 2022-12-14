@@ -26,7 +26,6 @@
     "@nrwl/cli": "15.2.4",
     "@nrwl/devkit": "15.2.4",
     "@nrwl/eslint-plugin-nx": "15.2.4",
-    "@nrwl/jest": "15.2.4",
     "@nrwl/js": "15.2.4",
     "@nrwl/linter": "15.2.4",
     "@nrwl/nx-plugin": "^15.2.4",
