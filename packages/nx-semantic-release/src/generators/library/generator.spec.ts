@@ -3,10 +3,12 @@ import {
   Tree,
   readProjectConfiguration,
   getWorkspaceLayout,
+  readJson,
 } from '@nrwl/devkit';
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
 import { GeneratorNotFoundError, LibraryNotFoundError } from './lib/errors';
+import { libraryGenerator } from '@nrwl/workspace/generators';
 
 describe('library generator', () => {
   let appTree: Tree;
@@ -20,8 +22,12 @@ describe('library generator', () => {
   });
 
   describe('when library already exists', () => {
-    it('should should run successfully', async () => {});
-    it('should create .releaserc', async () => {});
+    it('should should run successfully', async () => {
+      await libraryGenerator(appTree, { name: options.name });
+      await generator(appTree, options);
+
+      verifySuccessfulRun(appTree);
+    });
   });
 
   describe('when library does not exist', () => {
@@ -66,16 +72,26 @@ describe('library generator', () => {
         it('should create a project with .releaserc', async () => {
           await generator(appTree, optionsWithLibraryGen);
 
-          const config = readProjectConfiguration(appTree, 'test');
-          expect(config).toBeDefined();
-
-          const { libsDir } = getWorkspaceLayout(appTree);
-          const hasReleaserc = appTree.exists(
-            `${libsDir}/${config.name}/.releaserc`
-          );
-          expect(hasReleaserc).toBeTruthy();
+          verifySuccessfulRun(appTree);
         });
       });
     });
   });
 });
+
+function verifySuccessfulRun(tree: Tree) {
+  // Verify project exists
+  const config = readProjectConfiguration(tree, 'test');
+  expect(config).toBeDefined();
+
+  // Verify it has a .releaserc file
+  const { libsDir } = getWorkspaceLayout(tree);
+  const hasReleaserc = tree.exists(`${libsDir}/${config.name}/.releaserc`);
+  expect(hasReleaserc).toBeTruthy();
+
+  // Verify semantic-release has been added as a devDependency
+  const {
+    devDependencies: { 'semantic-release': semanticRelease },
+  } = readJson(tree, 'package.json');
+  expect(semanticRelease).toBeTruthy();
+}

@@ -1,4 +1,9 @@
-import { formatFiles, installPackagesTask, Tree } from '@nrwl/devkit';
+import {
+  addDependenciesToPackageJson,
+  formatFiles,
+  installPackagesTask,
+  Tree,
+} from '@nrwl/devkit';
 import { LibraryGeneratorSchema } from './schema';
 import { addFiles, normalizeOptions } from './lib';
 import { ensureLibrary } from './lib/ensure-library';
@@ -16,6 +21,8 @@ export async function libraryGenerator(
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+
+  addDependenciesToPackageJson(tree, {}, { 'semantic-release': 'latest' });
 
   return async () => {
     ensureLibraryTask && (await ensureLibraryTask());
