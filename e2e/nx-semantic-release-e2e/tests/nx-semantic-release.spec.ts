@@ -50,10 +50,6 @@ describe('nx-semantic-release e2e', () => {
   describe('--tags', () => {
     it('should add tags to the project', async () => {
       const projectName = uniq('nx-semantic-release');
-      ensureNxProject(
-        '@yuberto/nx-semantic-release',
-        'dist/packages/nx-semantic-release'
-      );
       await runNxCommandAsync(
         `generate @yuberto/nx-semantic-release:nx-semantic-release ${projectName} --tags e2etag,e2ePackage`
       );

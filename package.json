@@ -23,13 +23,13 @@
   },
   "private": true,
   "devDependencies": {
-    "@nrwl/cli": "15.2.4",
-    "@nrwl/devkit": "15.2.4",
-    "@nrwl/eslint-plugin-nx": "15.2.4",
-    "@nrwl/jest": "^15.2.4",
-    "@nrwl/js": "15.2.4",
-    "@nrwl/linter": "15.2.4",
-    "@nrwl/nx-plugin": "^15.2.4",
+    "@nrwl/cli": "15.3.3",
+    "@nrwl/devkit": "15.3.3",
+    "@nrwl/eslint-plugin-nx": "15.3.3",
+    "@nrwl/jest": "15.3.3",
+    "@nrwl/js": "15.3.3",
+    "@nrwl/linter": "15.3.3",
+    "@nrwl/nx-plugin": "15.3.3",
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.173",
@@ -42,7 +42,7 @@
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jsonc-eslint-parser": "^2.1.0",
-    "nx": "15.2.4",
+    "nx": "15.3.3",
     "prettier": "^2.6.2",
     "semantic-release": "^19.0.5",
     "ts-jest": "28.0.5",
@@ -54,3 +54,4 @@
     "tslib": "^2.3.0"
   }
 }
+
