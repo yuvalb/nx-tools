@@ -10,7 +10,11 @@ import {
 } from '@nrwl/devkit';
 import { NormalizedSchema } from './normalize-options';
 import { getRootTsConfigPathInTree } from '@nrwl/workspace/src/utilities/typescript';
-import { getNotFoundErrorMsg } from './errors';
+import {
+  GeneratorNotFoundError,
+  getNotFoundErrorMsg,
+  LibraryNotFoundError,
+} from './errors';
 
 export async function ensureLibrary(
   tree: Tree,
@@ -44,6 +48,7 @@ export async function ensureLibrary(
       const workspace = new Workspaces(workspaceRoot);
 
       let generatorImpl: Generator;
+      let resolvedGeneratorName: string;
 
       try {
         const {
@@ -54,22 +59,20 @@ export async function ensureLibrary(
           aliases,
         } = workspace.readGenerator(collection, generator);
 
-        logger.info(
-          `NX Generating ${resolvedCollectionName}:${normalizedGeneratorName}...`
-        );
-
         generatorImpl = implementationFactory();
+        resolvedGeneratorName = `${resolvedCollectionName}:${normalizedGeneratorName}`;
       } catch {
         const errMsg = await getNotFoundErrorMsg(
           workspace,
           options.libraryGenerator
         );
-        throw new Error(errMsg);
+        throw new GeneratorNotFoundError(errMsg);
       }
 
+      logger.info(`NX Generating ${resolvedGeneratorName}...`);
       return await generatorImpl(tree, options);
     } else {
-      throw new Error(
+      throw new LibraryNotFoundError(
         `No existing library found to modify. Please generate one or use the 'libraryGenerator' option.`
       );
     }
