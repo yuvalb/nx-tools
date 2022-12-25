@@ -1,4 +1,4 @@
-{
+module.exports = {
   "branches": [
 <%parsedBranches.map((branch, idx) => { -%>
   <%- `${idx === 0 ? "" : ", "}"${branch}"` %>

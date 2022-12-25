@@ -11,7 +11,7 @@ export function updateProjectConfig(
       executor: 'nx:run-commands',
       outputs: [],
       options: {
-        command: `npx semantic-release-plus --extends ./${normalizedOptions.projectRoot}/release.json`,
+        command: `npx semantic-release-plus --extends ./${normalizedOptions.releaseConfigPath}`,
         parallel: false,
       },
     };

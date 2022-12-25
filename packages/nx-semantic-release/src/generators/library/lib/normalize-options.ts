@@ -1,4 +1,4 @@
-import { Tree, names, getWorkspaceLayout } from '@nrwl/devkit';
+import { Tree, names, getWorkspaceLayout, offsetFromRoot } from '@nrwl/devkit';
 import { join } from 'path';
 import { LibraryGeneratorSchema } from '../schema';
 
@@ -9,6 +9,8 @@ export interface NormalizedSchema extends LibraryGeneratorSchema {
   projectJsonPath: string;
   parsedBranches: string[];
   parsedPrereleaseBranches: string[];
+  releaseConfigPath: string;
+  releaseBaseConfigPath: string;
   npmScope: string;
 }
 
@@ -24,6 +26,10 @@ export function normalizeOptions(
   const { npmScope, libsDir } = getWorkspaceLayout(tree);
   const projectRoot = `${libsDir}/${projectDirectory}`;
   const projectJsonPath = `${projectRoot}/project.json`;
+  const releaseConfigPath = `${projectRoot}/release.js`;
+  const releaseBaseConfigPath = `${offsetFromRoot(
+    projectRoot
+  )}release.base.js`;
 
   const parsedBranches = options.branches.split(',').map((s) => s.trim());
   const parsedPrereleaseBranches = options.prereleaseBranches
@@ -36,6 +42,8 @@ export function normalizeOptions(
     projectRoot,
     projectDirectory,
     projectJsonPath,
+    releaseConfigPath,
+    releaseBaseConfigPath,
     parsedBranches,
     parsedPrereleaseBranches,
     npmScope,

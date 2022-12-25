@@ -90,11 +90,11 @@ function verifySuccessfulRun(tree: Tree) {
 
   // Verify lib has a release.json file
   const { libsDir } = getWorkspaceLayout(tree);
-  const hasReleaserc = tree.exists(join(libsDir, config.name, 'release.json'));
+  const hasReleaserc = tree.exists(join(libsDir, config.name, 'release.js'));
   expect(hasReleaserc).toBeTruthy();
 
   // Verify root has a release.base.json file
-  const hasBaseReleaserc = tree.exists('release.base.json');
+  const hasBaseReleaserc = tree.exists('release.base.js');
   expect(hasBaseReleaserc).toBeTruthy();
 
   // Verify semantic-release-plus has been added as a devDependency

@@ -23,7 +23,11 @@ export async function libraryGenerator(
     await formatFiles(tree);
   }
 
-  addDependenciesToPackageJson(tree, {}, { 'semantic-release-plus': 'latest' });
+  addDependenciesToPackageJson(
+    tree,
+    {},
+    { 'semantic-release-plus': 'latest', '@semantic-release/git': 'latest' }
+  );
 
   updateProjectConfig(tree, normalizedOptions);
 
