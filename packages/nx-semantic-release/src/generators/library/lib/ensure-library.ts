@@ -70,7 +70,7 @@ export async function ensureLibrary(
       }
 
       logger.info(`NX Generating ${resolvedGeneratorName}...`);
-      return await generatorImpl(tree, options);
+      return await generatorImpl(tree, { ...options, publishable: true });
     } else {
       throw new LibraryNotFoundError(
         `No existing library found to modify. Please generate one or use the 'libraryGenerator' option.`

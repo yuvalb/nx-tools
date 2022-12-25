@@ -7,6 +7,7 @@ import {
 import { LibraryGeneratorSchema } from './schema';
 import { addFiles, normalizeOptions } from './lib';
 import { ensureLibrary } from './lib/ensure-library';
+import { updateProjectConfig } from './lib/update-project-config';
 
 export async function libraryGenerator(
   tree: Tree,
@@ -22,7 +23,9 @@ export async function libraryGenerator(
     await formatFiles(tree);
   }
 
-  addDependenciesToPackageJson(tree, {}, { 'semantic-release': 'latest' });
+  addDependenciesToPackageJson(tree, {}, { 'semantic-release-plus': 'latest' });
+
+  updateProjectConfig(tree, normalizedOptions);
 
   return async () => {
     ensureLibraryTask && (await ensureLibraryTask());

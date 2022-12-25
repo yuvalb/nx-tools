@@ -1,0 +1,19 @@
+{  
+  "extends": "release.base.json",
+  "pkgRoot": "dist/<%= projectRoot %>",
+  "tagFormat": "<%= name %>-v${version}",
+  "commitPaths": ["<%= projectRoot %>/*"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/npm", { "pkgRoot": "dist/<%= projectRoot %>", "tarballDir": "dist/<%= projectRoot %>" }],
+    ["@semantic-release/github", { 
+      "assets": [{ "path": "dist/<%= projectRoot %>/*.tgz", "label": "<%= name %> (tar.gz)" }]}
+    ],
+    ["@semantic-release/git", { 
+      "assets": ["<%= projectRoot %>/package.json", "<%= projectRoot %>/CHANGELOG.md"],
+      "message": "release(version): Release <%= name %> ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}

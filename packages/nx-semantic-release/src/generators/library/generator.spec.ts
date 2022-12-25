@@ -9,6 +9,7 @@ import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
 import { GeneratorNotFoundError, LibraryNotFoundError } from './lib/errors';
 import { libraryGenerator } from '@nrwl/workspace/generators';
+import { join } from 'path';
 
 describe('library generator', () => {
   let appTree: Tree;
@@ -84,14 +85,21 @@ function verifySuccessfulRun(tree: Tree) {
   const config = readProjectConfiguration(tree, 'test');
   expect(config).toBeDefined();
 
-  // Verify it has a .releaserc file
+  // Verify project has release target
+  expect(config.targets && config.targets.release).toBeDefined();
+
+  // Verify lib has a release.json file
   const { libsDir } = getWorkspaceLayout(tree);
-  const hasReleaserc = tree.exists(`${libsDir}/${config.name}/.releaserc`);
+  const hasReleaserc = tree.exists(join(libsDir, config.name, 'release.json'));
   expect(hasReleaserc).toBeTruthy();
 
-  // Verify semantic-release has been added as a devDependency
+  // Verify root has a release.base.json file
+  const hasBaseReleaserc = tree.exists('release.base.json');
+  expect(hasBaseReleaserc).toBeTruthy();
+
+  // Verify semantic-release-plus has been added as a devDependency
   const {
-    devDependencies: { 'semantic-release': semanticRelease },
+    devDependencies: { 'semantic-release-plus': semanticRelease },
   } = readJson(tree, 'package.json');
   expect(semanticRelease).toBeTruthy();
 }
