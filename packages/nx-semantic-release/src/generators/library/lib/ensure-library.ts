@@ -54,9 +54,7 @@ export async function ensureLibrary(
         const {
           resolvedCollectionName,
           normalizedGeneratorName,
-          schema,
           implementationFactory,
-          aliases,
         } = workspace.readGenerator(collection, generator);
 
         generatorImpl = implementationFactory();

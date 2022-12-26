@@ -1,6 +1,5 @@
 import { Workspaces } from '@nrwl/devkit';
 import { getAvailableGenerators } from './utils';
-import * as _ from 'lodash';
 
 export class GeneratorNotFoundError extends Error {}
 export class LibraryNotFoundError extends Error {}

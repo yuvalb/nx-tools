@@ -1,9 +1,4 @@
-import {
-  addDependenciesToPackageJson,
-  formatFiles,
-  installPackagesTask,
-  Tree,
-} from '@nrwl/devkit';
+import { formatFiles, installPackagesTask, Tree } from '@nrwl/devkit';
 import { LibraryGeneratorSchema } from './schema';
 import { addFiles, normalizeOptions } from './lib';
 import { ensureLibrary } from './lib/ensure-library';

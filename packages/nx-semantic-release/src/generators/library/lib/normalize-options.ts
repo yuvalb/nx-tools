@@ -1,5 +1,4 @@
 import { Tree, names, getWorkspaceLayout, offsetFromRoot } from '@nrwl/devkit';
-import { join } from 'path';
 import { LibraryGeneratorSchema } from '../schema';
 
 export interface NormalizedSchema extends LibraryGeneratorSchema {

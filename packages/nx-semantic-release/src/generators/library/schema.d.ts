@@ -1,5 +1,3 @@
-import { Schema } from '@nrwl/workspace/src/generators/library/schema';
-
 export interface LibraryGeneratorSchema {
   name: string;
   branches: string;
