@@ -30,7 +30,7 @@
     "@nrwl/js": "15.4.1",
     "@nrwl/linter": "15.4.1",
     "@nrwl/nx-plugin": "15.4.1",
-    "@semantic-release/git": "latest",
+    "@semantic-release/git": "^10.0.1",
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "~0.1.55",
     "@swc/core": "^1.2.173",
@@ -45,7 +45,7 @@
     "jsonc-eslint-parser": "^2.1.0",
     "nx": "15.4.1",
     "prettier": "^2.6.2",
-    "semantic-release-plus": "latest",
+    "semantic-release-plus": "^20.0.0",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.8.2"

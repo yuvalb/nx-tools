@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   getWorkspaceLayout,
   readJson,
+  readRootPackageJson,
 } from '@nrwl/devkit';
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
@@ -97,9 +98,19 @@ function verifySuccessfulRun(tree: Tree) {
   const hasBaseReleaserc = tree.exists('release.base.js');
   expect(hasBaseReleaserc).toBeTruthy();
 
-  // Verify semantic-release-plus has been added as a devDependency
+  // Verify semantic-release-plus and @semantic-release/git have been added as a devDependency with correct versions
   const {
-    devDependencies: { 'semantic-release-plus': semanticRelease },
+    devDependencies: {
+      'semantic-release-plus': semanticReleasePlusVersion,
+      '@semantic-release/git': semanticReleaseGitVersion,
+    },
+  } = readRootPackageJson();
+  const {
+    devDependencies: {
+      'semantic-release-plus': semanticReleasePlusInstalledVersion,
+      '@semantic-release/git': semanticReleaseGitInstalledVersion,
+    },
   } = readJson(tree, 'package.json');
-  expect(semanticRelease).toBeTruthy();
+  expect(semanticReleasePlusInstalledVersion).toBe(semanticReleasePlusVersion);
+  expect(semanticReleaseGitInstalledVersion).toBe(semanticReleaseGitVersion);
 }
