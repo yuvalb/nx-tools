@@ -2,7 +2,6 @@
 
 An nx generator to create publishable node packages using [semantic-release](https://github.com/semantic-release/semantic-release).
 
-
 ## Prerequisites
 
 Before you can start:

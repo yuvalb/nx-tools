@@ -7,8 +7,8 @@ import {
 export function addDependencies(tree: Tree) {
   const {
     devDependencies: {
-      "semantic-release-plus": semanticReleasePlusVersion,
-      "@semantic-release/git": semanticReleaseGitVersion,
+      'semantic-release-plus': semanticReleasePlusVersion,
+      '@semantic-release/git': semanticReleaseGitVersion,
     },
   } = readRootPackageJson();
   addDependenciesToPackageJson(

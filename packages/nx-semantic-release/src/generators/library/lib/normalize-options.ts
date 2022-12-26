@@ -27,9 +27,7 @@ export function normalizeOptions(
   const projectRoot = `${libsDir}/${projectDirectory}`;
   const projectJsonPath = `${projectRoot}/project.json`;
   const releaseConfigPath = `${projectRoot}/release.js`;
-  const releaseBaseConfigPath = `${offsetFromRoot(
-    projectRoot
-  )}release.base.js`;
+  const releaseBaseConfigPath = `${offsetFromRoot(projectRoot)}release.base.js`;
 
   const parsedBranches = options.branches.split(',').map((s) => s.trim());
   const parsedPrereleaseBranches = options.prereleaseBranches
