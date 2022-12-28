@@ -2,8 +2,6 @@ name: Node.js CI
 on:
   push:
     branches: [main, alpha]
-  pull_request:
-    branches: [main, alpha]
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -25,12 +23,12 @@ jobs:
           cache: 'npm'
       - name: Cache NPM dependencies
         uses: actions/cache@v3
-        id: cache-primes
+        id: node-modules-cache
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache-primes.outputs.cache-hit != 'true'
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
       - run: npx nx workspace-lint
       - run: npx nx format:check
@@ -55,4 +53,5 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-18.x-${{ hashFiles('package-lock.json') }}
+      - run: npx nx affected --target=build --parallel=3
       - run: npx nx affected --target=release --parallel=3
