@@ -11,6 +11,13 @@ Before you can start:
 
 _[Source](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/getting-started.md#getting-started)_
 
+## Installation
+
+To install the plugin:
+```sh
+npm i -D @yuberto/nx-semantic-release
+```
+
 ## Usage
 
 ### Generate a library
