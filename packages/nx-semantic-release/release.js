@@ -6,6 +6,7 @@ const commitPaths =
 
 module.exports = {
   ...baseReleaseConfig,
+  branches: ['main', { name: 'alpha', prerelease: true }],
   pkgRoot: 'dist/packages/nx-semantic-release',
   tagFormat: 'nx-semantic-release-v${version}',
   commitPaths,

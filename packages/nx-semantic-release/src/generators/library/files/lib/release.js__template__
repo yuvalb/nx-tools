@@ -3,6 +3,14 @@ const commitPaths = require("<%= releaseToolPath %>").tools.getProjectCommitPath
 
 module.exports = {  
   ...baseReleaseConfig,
+  branches: [
+<%parsedBranches.map((branch, idx) => { -%>
+  <%- `${idx === 0 ? "" : ", "}"${branch}"` %>
+<%}) -%>
+<%parsedPrereleaseBranches.map((prereleaseBranch) => { -%>
+  <%- `, { "name": "${prereleaseBranch}", "prerelease": true }` %>
+<%}) -%>
+  ],
   pkgRoot: "dist/<%= projectRoot %>",
   tagFormat: "<%= name %>-v${version}",
   commitPaths,

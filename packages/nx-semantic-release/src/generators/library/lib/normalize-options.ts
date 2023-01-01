@@ -1,6 +1,5 @@
 import { Tree, names, getWorkspaceLayout, offsetFromRoot } from '@nrwl/devkit';
 import { LibraryGeneratorSchema } from '../schema';
-import { TOOLS_DIR } from './add-files';
 
 export interface NormalizedSchema extends LibraryGeneratorSchema {
   projectName: string;
@@ -13,6 +12,13 @@ export interface NormalizedSchema extends LibraryGeneratorSchema {
   releaseBaseConfigPath: string;
   releaseToolPath: string;
   npmScope: string;
+}
+
+function parseBranches(branches: string): string[] {
+  return branches
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
 }
 
 export function normalizeOptions(
@@ -29,13 +35,12 @@ export function normalizeOptions(
   const projectJsonPath = `${projectRoot}/project.json`;
   const releaseConfigPath = `${projectRoot}/release.js`;
   const releaseBaseConfigPath = `${offsetFromRoot(projectRoot)}release.base.js`;
-  const releaseToolPath = `${offsetFromRoot(
-    projectRoot
-  )}${TOOLS_DIR}/release.tools.js`;
+  const releaseToolPath = `@yuberto/nx-semantic-release`;
 
-  const parsedBranches = options.branches.split(',').map((s) => s.trim());
+  const parsedBranches = parseBranches(options.branches);
+
   const parsedPrereleaseBranches = options.prereleaseBranches
-    ? options.prereleaseBranches.split(',').map((s) => s.trim())
+    ? parseBranches(options.prereleaseBranches)
     : [];
 
   return {
