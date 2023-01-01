@@ -29,4 +29,4 @@ export async function libraryGenerator(
   };
 }
 
-export defaul t libraryGenerator;
+export default libraryGenerator;
