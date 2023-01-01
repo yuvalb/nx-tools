@@ -14,6 +14,7 @@ _[Source](https://github.com/semantic-release/semantic-release/blob/master/docs/
 ## Installation
 
 To install the plugin:
+
 ```sh
 npm i -D @yuberto/nx-semantic-release
 ```
