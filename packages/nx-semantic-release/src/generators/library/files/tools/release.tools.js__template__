@@ -1,13 +1,10 @@
-export const {
-  workspaceLayout,
-  readCachedProjectGraph,
-} = require('@nrwl/devkit');
+const { workspaceLayout, readCachedProjectGraph } = require('@nrwl/devkit');
 
 /**
  * @param projectName The name of the project. e.g. 'nx-semantic-release'
  * @returns A string array representing the names of the project and its dependencies.
  */
-export function getProjectDependencies(projectName) {
+function getProjectDependencies(projectName) {
   const { dependencies: workspaceDependencies } = readCachedProjectGraph({
     exitOnError: true,
   });
@@ -36,7 +33,7 @@ export function getProjectDependencies(projectName) {
  * @param projectName The name of the project. e.g. 'nx-semantic-release'
  * @returns A string array representing the commit paths that affect the project or its dependencies.
  */
-export function getProjectCommitPaths(projectName) {
+function getProjectCommitPaths(projectName) {
   const { libsDir } = workspaceLayout();
   const dependencies = getProjectDependencies(projectName);
 
@@ -45,3 +42,10 @@ export function getProjectCommitPaths(projectName) {
   );
   return commitPaths;
 }
+
+module.exports = {
+  workspaceLayout,
+  readCachedProjectGraph,
+  getProjectDependencies,
+  getProjectCommitPaths,
+};
