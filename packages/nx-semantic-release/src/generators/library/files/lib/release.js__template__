@@ -1,5 +1,5 @@
 const baseReleaseConfig = require("<%= releaseBaseConfigPath %>");
-const commitPaths = require("<%= releaseToolPath %>").getProjectCommitPaths();
+const commitPaths = require("<%= releaseToolPath %>").getProjectCommitPaths("<%= projectName %>");
 
 module.exports = {  
   ...baseReleaseConfig,
