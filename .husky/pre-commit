@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+nx workspace-lint
+nx format:check
+nx affected --target=lint --parallel=3
