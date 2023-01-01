@@ -1,5 +1,5 @@
 module.exports = {
-  "branches": [
+  branches: [
 <%parsedBranches.map((branch, idx) => { -%>
   <%- `${idx === 0 ? "" : ", "}"${branch}"` %>
 <%}) -%>
@@ -7,7 +7,7 @@ module.exports = {
   <%- `, { "name": "${prereleaseBranch}", "prerelease": true }` %>
 <%}) -%>
   ],
-  "debug": true,
-  "ci": true,
-  "dryRun": false
+  debug: true,
+  ci: true,
+  dryRun: false
 }

@@ -2,6 +2,8 @@ import { Tree, names, offsetFromRoot, generateFiles } from '@nrwl/devkit';
 import * as path from 'path';
 import { NormalizedSchema } from './normalize-options';
 
+export const TOOLS_DIR = 'tools';
+
 export function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
@@ -9,6 +11,14 @@ export function addFiles(tree: Tree, options: NormalizedSchema) {
     offsetFromRoot: offsetFromRoot(options.projectRoot),
     template: '',
   };
+
+  // Generate lib files
+  generateFiles(
+    tree,
+    path.join(__dirname, '..', 'files', 'lib'),
+    options.projectRoot,
+    templateOptions
+  );
 
   // Generate root files
   generateFiles(
@@ -18,11 +28,11 @@ export function addFiles(tree: Tree, options: NormalizedSchema) {
     templateOptions
   );
 
-  // Generate lib files
+  // Generate tool files
   generateFiles(
     tree,
-    path.join(__dirname, '..', 'files', 'lib'),
-    options.projectRoot,
+    path.join(__dirname, '..', 'files', 'tools'),
+    TOOLS_DIR,
     templateOptions
   );
 }

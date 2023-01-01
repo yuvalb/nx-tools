@@ -11,6 +11,7 @@ import { LibraryGeneratorSchema } from './schema';
 import { GeneratorNotFoundError, LibraryNotFoundError } from './lib/errors';
 import { libraryGenerator } from '@nrwl/workspace/generators';
 import { join } from 'path';
+import { TOOLS_DIR } from './lib';
 
 describe('library generator', () => {
   let appTree: Tree;
@@ -71,7 +72,7 @@ describe('library generator', () => {
           libraryGenerator: '@nrwl/workspace:library',
         };
 
-        it('should create a project with .releaserc', async () => {
+        it('should create a project successfully', async () => {
           await generator(appTree, optionsWithLibraryGen);
 
           verifySuccessfulRun(appTree);
@@ -97,6 +98,10 @@ function verifySuccessfulRun(tree: Tree) {
   // Verify root has a release.base.json file
   const hasBaseReleaserc = tree.exists('release.base.js');
   expect(hasBaseReleaserc).toBeTruthy();
+
+  // Verify tools directory has a release.util.js file
+  const hasReleaseTool = tree.exists(join(TOOLS_DIR, 'release.tools.js'));
+  expect(hasReleaseTool).toBeTruthy();
 
   // Verify semantic-release-plus and @semantic-release/git have been added as a devDependency with correct versions
   const {

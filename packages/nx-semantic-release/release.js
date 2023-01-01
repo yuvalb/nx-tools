@@ -1,10 +1,11 @@
 const baseReleaseConfig = require('../../release.base.js');
+const commitPaths = require('../../tools/release.tools.js').commitPaths();
 
 module.exports = {
   ...baseReleaseConfig,
   pkgRoot: 'dist/packages/nx-semantic-release',
   tagFormat: 'nx-semantic-release-v${version}',
-  commitPaths: ['packages/nx-semantic-release/*'],
+  commitPaths,
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

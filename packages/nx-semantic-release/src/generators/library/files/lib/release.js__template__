@@ -1,11 +1,12 @@
-const baseReleaseConfig = require("<%= releaseBaseConfigPath %>")
+const baseReleaseConfig = require("<%= releaseBaseConfigPath %>");
+const commitPaths = require("<%= releaseToolPath %>").commitPaths();
 
 module.exports = {  
   ...baseReleaseConfig,
-  "pkgRoot": "dist/<%= projectRoot %>",
-  "tagFormat": "<%= name %>-v${version}",
-  "commitPaths": ["<%= projectRoot %>/*"],
-  "plugins": [
+  pkgRoot: "dist/<%= projectRoot %>",
+  tagFormat: "<%= name %>-v${version}",
+  commitPaths,
+  plugins: [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/npm", { "pkgRoot": "dist/<%= projectRoot %>", "tarballDir": "dist/<%= projectRoot %>" }],
