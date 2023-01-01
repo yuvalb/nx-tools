@@ -1,6 +1,6 @@
 {
   "name": "nx-semantic-release",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
+    "@yuberto/nx-semantic-release": "file:dist/packages/nx-semantic-release",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "husky": "^8.0.0",

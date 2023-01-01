@@ -99,10 +99,6 @@ function verifySuccessfulRun(tree: Tree) {
   const hasBaseReleaserc = tree.exists('release.base.js');
   expect(hasBaseReleaserc).toBeTruthy();
 
-  // Verify tools directory has a release.util.js file
-  const hasReleaseTool = tree.exists(join(TOOLS_DIR, 'release.tools.js'));
-  expect(hasReleaseTool).toBeTruthy();
-
   // Verify semantic-release-plus and @semantic-release/git have been added as a devDependency with correct versions
   const {
     devDependencies: {
