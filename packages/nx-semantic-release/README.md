@@ -2,9 +2,9 @@
 
 An nx generator to create publishable node packages and libraries using [semantic-release](https://github.com/semantic-release/semantic-release).
 
-## Usage
-
 `nx-semantic-release` modifies your existing library - or generates a new one with the `--libraryGenerator` parameter - to be setup with `semantic-release`.
+
+## Usage
 
 The most basic use case is when you have a library called `mylib` that you wish to setup `semantic-release`:
 
