@@ -7,9 +7,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://github.com/yuvalb/nx-semantic-release/blob/main/packages/nx-semantic-release#readme",
+  "homepage": "https://github.com/yuvalb/nx-tools/blob/main/packages/nx-semantic-release#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuvalb/nx-semantic-release.git"
+    "url": "git+https://github.com/yuvalb/nx-tools.git"
   }
 }
