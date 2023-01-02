@@ -2,7 +2,7 @@ import { Tree, names, offsetFromRoot, generateFiles } from '@nrwl/devkit';
 import * as path from 'path';
 import { NormalizedSchema } from './normalize-options';
 
-export const TOOLS_DIR = 'tools';
+export const RELEASE_BASE_FILE = 'release.base.js';
 
 export function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
@@ -20,11 +20,13 @@ export function addFiles(tree: Tree, options: NormalizedSchema) {
     templateOptions
   );
 
-  // Generate root files
-  generateFiles(
-    tree,
-    path.join(__dirname, '..', 'files', 'root'),
-    '.',
-    templateOptions
-  );
+  // Generate root files if not already present
+  if (!tree.exists(RELEASE_BASE_FILE)) {
+    generateFiles(
+      tree,
+      path.join(__dirname, '..', 'files', 'root'),
+      '.',
+      templateOptions
+    );
+  }
 }

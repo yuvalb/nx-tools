@@ -7,6 +7,10 @@ import {
   uniq,
 } from '@nrwl/nx-plugin/testing';
 import { LibraryGeneratorSchema } from '@yuberto/nx-semantic-release/src/generators/library/schema';
+import { RELEASE_BASE_FILE } from '@yuberto/nx-semantic-release/src/generators/library/lib/add-files';
+import { rename, writeFile } from 'fs/promises';
+import { join } from 'path';
+import { existsSync } from 'fs';
 
 describe('nx-semantic-release e2e', () => {
   // Setting up individual workspaces per
@@ -20,6 +24,10 @@ describe('nx-semantic-release e2e', () => {
       '@yuberto/nx-semantic-release',
       'dist/packages/nx-semantic-release'
     );
+  });
+
+  beforeEach(() => {
+    jest.resetModules();
   });
 
   afterAll(() => {
@@ -41,6 +49,58 @@ describe('nx-semantic-release e2e', () => {
 
         verifySuccessfulRun(project, { branches });
       }, 120000);
+
+      describe('release base file already present', () => {
+        const baseFile = join(tmpProjPath(), RELEASE_BASE_FILE);
+        const tempReleaseFile = `${baseFile}_temp`;
+
+        beforeEach(async () => {
+          if (existsSync(baseFile)) {
+            await rename(baseFile, tempReleaseFile);
+          }
+        });
+
+        afterEach(async () => {
+          if (existsSync(tempReleaseFile)) {
+            await rename(tempReleaseFile, baseFile);
+          }
+        });
+
+        it('should not generate a release.base file if one is already present', async () => {
+          const project = uniq('nx-semantic-release');
+
+          await runNxCommandAsync(
+            `generate @nrwl/workspace:library ${project}`
+          );
+
+          await writeFile(baseFile, `module.exports = { unmodified: true }`);
+
+          await runNxCommandAsync(
+            `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches}`
+          );
+
+          const releaseBaseFile = require(baseFile);
+
+          expect(releaseBaseFile.unmodified).toBeTruthy();
+        }, 120000);
+      });
+
+      describe('errors', () => {
+        it("should throw an error if a library doesn't exist", async () => {
+          const project = uniq('nx-semantic-release');
+
+          let thrown;
+          try {
+            await runNxCommandAsync(
+              `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches}`
+            );
+          } catch (error) {
+            thrown = error;
+          }
+
+          expect(thrown).toBeDefined();
+        });
+      });
     });
 
     describe('--branches', () => {
