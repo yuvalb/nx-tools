@@ -5,6 +5,7 @@ import {
   getWorkspaceLayout,
   readJson,
   readRootPackageJson,
+  names,
 } from '@nrwl/devkit';
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
@@ -26,9 +27,28 @@ describe('library generator', () => {
   describe('when library already exists', () => {
     it('should should run successfully', async () => {
       await libraryGenerator(appTree, { name: options.name });
+
       await generator(appTree, options);
 
-      verifySuccessfulRun(appTree);
+      verifySuccessfulRun(appTree, options);
+    });
+
+    describe('--directory', () => {
+      const optionsWithDirectory = {
+        ...options,
+        directory: 'directory',
+      };
+
+      it('should modify the library present at the directory', async () => {
+        await libraryGenerator(appTree, {
+          name: optionsWithDirectory.name,
+          directory: optionsWithDirectory.directory,
+        });
+
+        await generator(appTree, optionsWithDirectory);
+
+        verifySuccessfulRun(appTree, optionsWithDirectory);
+      });
     });
   });
 
@@ -74,16 +94,35 @@ describe('library generator', () => {
         it('should create a project successfully', async () => {
           await generator(appTree, optionsWithLibraryGen);
 
-          verifySuccessfulRun(appTree);
+          verifySuccessfulRun(appTree, optionsWithLibraryGen);
+        });
+
+        describe('--directory', () => {
+          const optionsWithLibraryGenAndDirectory = {
+            ...optionsWithLibraryGen,
+            directory: 'directory',
+          };
+
+          it('should create a project in a relative directory', async () => {
+            await generator(appTree, optionsWithLibraryGenAndDirectory);
+
+            verifySuccessfulRun(appTree, optionsWithLibraryGenAndDirectory);
+          });
         });
       });
     });
   });
 });
 
-function verifySuccessfulRun(tree: Tree) {
+function verifySuccessfulRun(tree: Tree, options: LibraryGeneratorSchema) {
+  const projectDirectory = `${
+    (options.directory && `${names(options.directory).fileName}/`) || ''
+  }${options.name}`;
+
+  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+
   // Verify project exists
-  const config = readProjectConfiguration(tree, 'test');
+  const config = readProjectConfiguration(tree, projectName);
   expect(config).toBeDefined();
 
   // Verify project has release target
@@ -91,7 +130,9 @@ function verifySuccessfulRun(tree: Tree) {
 
   // Verify lib has a release.json file
   const { libsDir } = getWorkspaceLayout(tree);
-  const hasReleaserc = tree.exists(join(libsDir, config.name, 'release.js'));
+  const hasReleaserc = tree.exists(
+    join(libsDir, projectDirectory, 'release.js')
+  );
   expect(hasReleaserc).toBeTruthy();
 
   // Verify root has a release.base.json file
