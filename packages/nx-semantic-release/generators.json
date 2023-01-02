@@ -3,11 +3,6 @@
   "name": "nx-semantic-release",
   "version": "0.0.1",
   "generators": {
-    "nx-semantic-release": {
-      "factory": "./src/generators/nx-semantic-release/generator",
-      "schema": "./src/generators/nx-semantic-release/schema.json",
-      "description": "nx-semantic-release generator"
-    },
     "library": {
       "factory": "./src/generators/library/generator",
       "schema": "./src/generators/library/schema.json",

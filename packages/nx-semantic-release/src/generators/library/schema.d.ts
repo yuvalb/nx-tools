@@ -1,5 +1,9 @@
 export interface LibraryGeneratorSchema {
-    name: string;
-    tags?: string;
-    directory?: string;
+  name: string;
+  branches: string;
+  prereleaseBranches?: string;
+  directory?: string;
+  skipFormat?: boolean;
+  importPath?: string;
+  libraryGenerator?: string;
 }

@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@yuvalb/nx-semantic-release": [
+      "@yuberto/nx-semantic-release": [
         "packages/nx-semantic-release/src/index.ts"
       ]
     }

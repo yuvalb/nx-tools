@@ -1,7 +1,15 @@
 {
-  "name": "@yuvalb/nx-semantic-release",
+  "name": "@yuberto/nx-semantic-release",
   "version": "0.0.1",
   "main": "src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/yuvalb/nx-semantic-release/blob/main/packages/nx-semantic-release#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuvalb/nx-semantic-release.git"
+  }
 }
