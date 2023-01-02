@@ -46,11 +46,11 @@
     },
     "importPath": {
       "type": "string",
-      "description": "The library name used to import it, like `@myorg/my-awesome-lib`."
+      "description": "The library import path used to import it, like `@myorg/my-awesome-lib`."
     },
     "libraryGenerator": {
       "type": "string",
-      "description": "The generator used to generate a library, like `nx:library`. If the generator requires extra options, pass them as well."
+      "description": "The generator used to generate a library, like `@nrwl/workspace:library`. If the generator requires extra options, pass them as well."
     }
   },
   "additionalProperties": true,

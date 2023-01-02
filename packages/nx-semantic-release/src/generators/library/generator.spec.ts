@@ -11,7 +11,6 @@ import { LibraryGeneratorSchema } from './schema';
 import { GeneratorNotFoundError, LibraryNotFoundError } from './lib/errors';
 import { libraryGenerator } from '@nrwl/workspace/generators';
 import { join } from 'path';
-import { TOOLS_DIR } from './lib';
 
 describe('library generator', () => {
   let appTree: Tree;

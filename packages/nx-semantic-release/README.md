@@ -1,6 +1,18 @@
 # nx-semantic-release
 
-An nx generator to create publishable node packages using [semantic-release](https://github.com/semantic-release/semantic-release).
+An nx generator to create publishable node packages and libraries using [semantic-release](https://github.com/semantic-release/semantic-release).
+
+## Usage
+
+`nx-semantic-release` modifies your existing library - or generates a new one with the `--libraryGenerator` parameter - to be setup with `semantic-release`.
+
+The most basic use case is when you have a library called `mylib` that you wish to setup `semantic-release`:
+
+```sh
+nx g @yuberto/nx-semantic-release:library mylib
+```
+
+Follow on-screen prompts to finalize the setup, and release!
 
 ## Prerequisites
 
@@ -36,10 +48,12 @@ nx g @yuberto/nx-semantic-release:library your-library-name --branches=main
 - `prereleaseBranches` - Comma separated list of this repo's pre-release branches.
 - `libraryGenerator` - Name of the library generator to use if library does not exist.
   - All mandatory parameters of customer library generator should be passed as command line arguments to `nx-semantic-release` as well.
+- `directory` - Name of a custom directory inside the `libs` dir.
+  - `--name=mylibrary --directory=mydirectory` will initiate the library in `libs/mydirectory/mylibrary`
 
-**Note:** For a complete list of parameters, please refer to the [schema](./src/generators/library/schema.json).\_
+**Note:** _For a complete list of parameters, please refer to the [schema](./src/generators/library/schema.json)._
 
-# Workflow Generator
+<!-- # Workflow Generator
 
 ## Generate a workflow
 
@@ -47,4 +61,4 @@ The following will generate a Github workflow named `your-workflow-name` to publ
 
 ```sh
 nx g @yuberto/nx-semantic-release:workflow your-workflow-name --branch=main,alpha --ci=github
-```
+``` -->

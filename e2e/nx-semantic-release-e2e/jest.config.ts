@@ -12,4 +12,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/e2e/nx-semantic-release-e2e',
+  setupFilesAfterEnv: ['./jest.setup.ts'],
 };

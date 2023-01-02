@@ -48,7 +48,7 @@ describe('nx-semantic-release e2e', () => {
         );
 
         verifySuccessfulRun(project, { branches });
-      }, 120000);
+      });
 
       describe('release base file already present', () => {
         const baseFile = join(tmpProjPath(), RELEASE_BASE_FILE);
@@ -82,7 +82,7 @@ describe('nx-semantic-release e2e', () => {
           const releaseBaseFile = require(baseFile);
 
           expect(releaseBaseFile.unmodified).toBeTruthy();
-        }, 120000);
+        });
       });
 
       describe('errors', () => {
@@ -116,8 +116,7 @@ describe('nx-semantic-release e2e', () => {
           );
 
           verifySuccessfulRun(project, { branches });
-        },
-        120000
+        }
       );
     });
 
@@ -136,8 +135,7 @@ describe('nx-semantic-release e2e', () => {
           );
 
           verifySuccessfulRun(project, { branches, prereleaseBranches });
-        },
-        120000
+        }
       );
     });
 
@@ -149,7 +147,23 @@ describe('nx-semantic-release e2e', () => {
         );
 
         verifySuccessfulRun(project, { branches });
-      }, 120000);
+      });
+    });
+
+    describe('--directory', () => {
+      const directory = uniq('directory');
+
+      it('should generate the plugin in a custom directory', async () => {
+        const project = uniq('nx-semantic-release');
+        await runNxCommandAsync(
+          `generate @nrwl/workspace:library ${project} --directory=${directory}`
+        );
+        await runNxCommandAsync(
+          `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches} --directory=${directory}`
+        );
+
+        verifySuccessfulRun(project, { branches, directory });
+      });
     });
   });
 
@@ -158,23 +172,25 @@ describe('nx-semantic-release e2e', () => {
     {
       branches,
       prereleaseBranches,
+      directory,
     }: Pick<LibraryGeneratorSchema, 'branches'> &
       Partial<Omit<LibraryGeneratorSchema, 'branches'>>
   ) {
+    const basePath = `libs/${(directory && `${directory}/`) || ''}${project}`;
     // Verify files were created correctly
     expect(() =>
-      checkFilesExist(`release.base.js`, `libs/${project}/release.js`)
+      checkFilesExist(`release.base.js`, `${basePath}/release.js`)
     ).not.toThrow();
 
     // Verify a release target is present in the project
     const {
       targets: { release },
-    } = readJson(`libs/${project}/project.json`);
+    } = readJson(`${basePath}/project.json`);
     expect(release).toBeDefined();
 
     // Verify release
     const { branches: outputBranches, ci } = require(tmpProjPath(
-      `libs/${project}/release`
+      `${basePath}/release`
     ));
 
     // Verify release.base.ci.js is present in release.js
