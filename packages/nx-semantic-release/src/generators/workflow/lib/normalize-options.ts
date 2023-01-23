@@ -1,7 +1,7 @@
 import { readRootPackageJson } from '@nrwl/devkit';
 import { WorkflowGeneratorSchema } from '../schema';
 import * as semver from 'semver';
-import { parseBranches } from '@yuberto/nx-semantic-release/src/tools/cli.tools';
+import { parseBranches } from '../../../tools/cli.tools';
 
 export interface NormalizedSchema extends WorkflowGeneratorSchema {
   parsedBranches: string[];
