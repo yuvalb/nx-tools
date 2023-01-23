@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Workflow",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": ["github"],
+      "description": "The type of workflow you would like to generate. Default: 'github'.",
+      "default": "github",
+      "x-prompt": "What ci would you like to use?"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed"
+    },
+    "nodeVerseion": {
+      "type": "string",
+      "description": "The node version the CI workflow should utilize",
+      "default": "18"
+    }
+  },
+  "required": ["type"]
+}

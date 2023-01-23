@@ -6,7 +6,7 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 jobs:
-  build:
+  e2e:
     runs-on: ubuntu-latest
     strategy:
       matrix:

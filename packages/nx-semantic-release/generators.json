@@ -8,6 +8,11 @@
       "schema": "./src/generators/library/schema.json",
       "aliases": ["lib"],
       "description": "Create a publishable npm library."
+    },
+    "workflow": {
+      "factory": "./src/generators/workflow/generator",
+      "schema": "./src/generators/workflow/schema.json",
+      "description": "workflow generator"
     }
   }
 }
