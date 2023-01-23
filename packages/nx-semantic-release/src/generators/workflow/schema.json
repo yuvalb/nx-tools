@@ -12,7 +12,7 @@
       "x-prompt": "What ci would you like to use?"
     },
     "nodeVersion": {
-      "type": "string",
+      "type": ["integer", "string"],
       "description": "The node version the CI workflow should utilize",
       "default": "18"
     }

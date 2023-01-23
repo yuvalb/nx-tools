@@ -1,6 +1,7 @@
 import {
   checkFilesExist,
   ensureNxProject,
+  readFile,
   readJson,
   runNxCommandAsync,
   tmpProjPath,
@@ -165,60 +166,121 @@ describe('nx-semantic-release e2e', () => {
         verifySuccessfulRun(project, { branches, directory });
       });
     });
+
+    function verifySuccessfulRun(
+      project: string,
+      {
+        branches,
+        prereleaseBranches,
+        directory,
+      }: Pick<LibraryGeneratorSchema, 'branches'> &
+        Partial<Omit<LibraryGeneratorSchema, 'branches'>>
+    ) {
+      const basePath = `libs/${(directory && `${directory}/`) || ''}${project}`;
+      // Verify files were created correctly
+      expect(() =>
+        checkFilesExist(`release.base.js`, `${basePath}/release.js`)
+      ).not.toThrow();
+
+      // Verify a release target is present in the project
+      const {
+        targets: { release },
+      } = readJson(`${basePath}/project.json`);
+      expect(release).toBeDefined();
+
+      // Verify release
+      const { branches: outputBranches, ci } = require(tmpProjPath(
+        `${basePath}/release`
+      ));
+
+      // Verify release.base.ci.js is present in release.js
+      expect(ci).toBeTruthy();
+
+      // Verify branches exist in release
+      const formattedBranches = branches.split(',').map((_) => _.trim());
+      const outputReleaseBranches = outputBranches.filter(
+        (_) => typeof _ === 'string' || !_.prerelease
+      );
+      expect(outputReleaseBranches).toMatchObject(formattedBranches);
+
+      // Verify prerelease branches exist in release
+      const outputPrereleaseBranches = outputBranches.filter(
+        ({ prerelease }) => prerelease
+      );
+
+      if (prereleaseBranches) {
+        const formattedPrereleaseBranches = prereleaseBranches
+          .split(',')
+          .map((_) => _.trim())
+          .map((name) => ({ name, prerelease: true }));
+
+        expect(outputPrereleaseBranches).toMatchObject(
+          formattedPrereleaseBranches
+        );
+      } else {
+        expect(outputPrereleaseBranches.length).toBe(0);
+      }
+    }
   });
 
-  function verifySuccessfulRun(
-    project: string,
-    {
-      branches,
-      prereleaseBranches,
-      directory,
-    }: Pick<LibraryGeneratorSchema, 'branches'> &
-      Partial<Omit<LibraryGeneratorSchema, 'branches'>>
-  ) {
-    const basePath = `libs/${(directory && `${directory}/`) || ''}${project}`;
-    // Verify files were created correctly
-    expect(() =>
-      checkFilesExist(`release.base.js`, `${basePath}/release.js`)
-    ).not.toThrow();
+  describe('generator: workflow', () => {
+    describe('--type', () => {
+      describe('errors', () => {
+        it('should throw an error if an invalid type was given', async () => {
+          let thrown;
+          try {
+            await runNxCommandAsync(
+              `generate @yuberto/nx-semantic-release:workflow --type=invalid`
+            );
+          } catch (e) {
+            thrown = e;
+          }
 
-    // Verify a release target is present in the project
-    const {
-      targets: { release },
-    } = readJson(`${basePath}/project.json`);
-    expect(release).toBeDefined();
+          expect(thrown).toBeDefined();
+        });
+      });
 
-    // Verify release
-    const { branches: outputBranches, ci } = require(tmpProjPath(
-      `${basePath}/release`
-    ));
+      describe('type=github', () => {
+        it('should generate a github workflow', async () => {
+          await runNxCommandAsync(
+            `generate @yuberto/nx-semantic-release:workflow --type=github`
+          );
 
-    // Verify release.base.ci.js is present in release.js
-    expect(ci).toBeTruthy();
+          expect(() =>
+            checkFilesExist(join('.github', 'workflows', 'release.ci.yaml'))
+          ).not.toThrow();
+        });
 
-    // Verify branches exist in release
-    const formattedBranches = branches.split(',').map((_) => _.trim());
-    const outputReleaseBranches = outputBranches.filter(
-      (_) => typeof _ === 'string' || !_.prerelease
-    );
-    expect(outputReleaseBranches).toMatchObject(formattedBranches);
+        describe('--nodeVersion', () => {
+          it('should generate a github workflow with the specified node version', async () => {
+            const nodeVersion = 18;
+            await runNxCommandAsync(
+              `generate @yuberto/nx-semantic-release:workflow --type=github --nodeVersion=18`
+            );
 
-    // Verify prerelease branches exist in release
-    const outputPrereleaseBranches = outputBranches.filter(
-      ({ prerelease }) => prerelease
-    );
+            const output = readFile(
+              join('.github', 'workflows', 'release.ci.yaml')
+            );
 
-    if (prereleaseBranches) {
-      const formattedPrereleaseBranches = prereleaseBranches
-        .split(',')
-        .map((_) => _.trim())
-        .map((name) => ({ name, prerelease: true }));
+            expect(output).toContain(`Node.js ${nodeVersion}`);
+          });
 
-      expect(outputPrereleaseBranches).toMatchObject(
-        formattedPrereleaseBranches
-      );
-    } else {
-      expect(outputPrereleaseBranches.length).toBe(0);
-    }
-  }
+          describe('errors', () => {
+            it('should throw an error if invalid node version was given', async () => {
+              let thrown;
+              try {
+                await runNxCommandAsync(
+                  `generate @yuberto/nx-semantic-release:workflow --type=github --nodeVersion=invalid`
+                );
+              } catch (e) {
+                thrown = e;
+              }
+
+              expect(thrown).toBeDefined();
+            });
+          });
+        });
+      });
+    });
+  });
 });

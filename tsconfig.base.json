@@ -17,6 +17,9 @@
     "paths": {
       "@yuberto/nx-semantic-release": [
         "packages/nx-semantic-release/src/index.ts"
+      ],
+      "@yuberto/nx-semantic-release/src/*": [
+        "packages/nx-semantic-release/src/*"
       ]
     }
   },
