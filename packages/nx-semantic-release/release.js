@@ -1,6 +1,6 @@
 const baseReleaseConfig = require('../../release.base.js');
 const commitPaths =
-  require('@yuberto/nx-semantic-release').tools.getProjectCommitPaths(
+  require('../../dist/packages/nx-semantic-release/src/tools/release.tools').getProjectCommitPaths(
     'nx-semantic-release'
   );
 

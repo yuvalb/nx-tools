@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Workflow",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": ["github"],
+      "description": "The type of workflow you would like to generate. Default: 'github'.",
+      "default": "github",
+      "x-prompt": "What ci would you like to use?"
+    },
+    "branches": {
+      "type": "string",
+      "description": "List of comma-seprated release branches (default `main`)",
+      "default": "main",
+      "x-prompt": "What is your default branch (default `main`)?"
+    },
+    "nodeVersion": {
+      "type": ["integer", "string"],
+      "description": "The node version the CI workflow should utilize",
+      "default": "18"
+    }
+  },
+  "required": ["type", "branches"]
+}
