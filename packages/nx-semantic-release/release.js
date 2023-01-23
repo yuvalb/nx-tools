@@ -1,7 +1,8 @@
 const baseReleaseConfig = require('../../release.base.js');
-const commitPaths = require('./src/tools/release.tools').getProjectCommitPaths(
-  'nx-semantic-release'
-);
+const commitPaths =
+  require('./src/tools/release.tools.js').getProjectCommitPaths(
+    'nx-semantic-release'
+  );
 
 module.exports = {
   ...baseReleaseConfig,
