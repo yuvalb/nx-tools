@@ -14,9 +14,7 @@ interface NormalizedSchema extends WorkflowGeneratorSchema {
 }
 
 function normalizeOptions(options: WorkflowGeneratorSchema): NormalizedSchema {
-  const parsedNodeVersion = semver.valid(
-    semver.coerce(options.nodeVersion ?? '18.x')
-  );
+  const parsedNodeVersion = semver.valid(semver.coerce(options.nodeVersion));
 
   if (!parsedNodeVersion) {
     throw new Error(`Invalid node version '${options.nodeVersion}'.`);
@@ -41,6 +39,7 @@ function getTargetDir(ciType: WorkflowGeneratorSchema['type']) {
 function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
+    template: '',
   };
   generateFiles(
     tree,
