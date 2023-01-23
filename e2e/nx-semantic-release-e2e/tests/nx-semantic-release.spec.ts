@@ -37,6 +37,89 @@ describe('nx-semantic-release e2e', () => {
     runNxCommandAsync('reset');
   });
 
+  describe('generator: workflow', () => {
+    describe('--type', () => {
+      describe('errors', () => {
+        it('should throw an error if an invalid type was given', async () => {
+          let thrown;
+          try {
+            await runNxCommandAsync(
+              `generate @yuberto/nx-semantic-release:workflow --type=invalid`
+            );
+          } catch (e) {
+            thrown = e;
+          }
+
+          expect(thrown).toBeDefined();
+        });
+      });
+
+      describe('type=github', () => {
+        it('should generate a github workflow', async () => {
+          await runNxCommandAsync(
+            `generate @yuberto/nx-semantic-release:workflow --type=github`
+          );
+
+          expect(() =>
+            checkFilesExist(join('.github', 'workflows', 'release.ci.yaml'))
+          ).not.toThrow();
+        });
+
+        describe('--branches', () => {
+          it.each(['mainBranch', 'mainBranch,alphaBranch'])(
+            "should create the correct branches for '%p'",
+            async (branches) => {
+              await runNxCommandAsync(
+                `generate @yuberto/nx-semantic-release:workflow --type=github --branches="${branches}"`
+              );
+
+              const output = readFile(
+                join('.github', 'workflows', 'release.ci.yaml')
+              );
+
+              const parsedBranches = branches
+                .split(',')
+                .map((_) => _.trim())
+                .join(', ');
+
+              expect(output).toContain(`[${parsedBranches}]`);
+            }
+          );
+        });
+
+        describe('--nodeVersion', () => {
+          it('should generate a github workflow with the specified node version', async () => {
+            const nodeVersion = 18;
+            await runNxCommandAsync(
+              `generate @yuberto/nx-semantic-release:workflow --type=github --branches=main --nodeVersion=${nodeVersion}`
+            );
+
+            const output = readFile(
+              join('.github', 'workflows', 'release.ci.yaml')
+            );
+
+            expect(output).toContain(`Node.js ${nodeVersion}`);
+          });
+
+          describe('errors', () => {
+            it('should throw an error if invalid node version was given', async () => {
+              let thrown;
+              try {
+                await runNxCommandAsync(
+                  `generate @yuberto/nx-semantic-release:workflow --type=github --branches=main --nodeVersion=invalid`
+                );
+              } catch (e) {
+                thrown = e;
+              }
+
+              expect(thrown).toBeDefined();
+            });
+          });
+        });
+      });
+    });
+  });
+
   describe('generator: library', () => {
     const branches = 'main';
 
@@ -48,7 +131,7 @@ describe('nx-semantic-release e2e', () => {
           `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches}`
         );
 
-        verifySuccessfulRun(project, { branches });
+        verifySuccessfulLibraryGeneratorRun(project, { branches });
       });
 
       describe('release base file already present', () => {
@@ -116,7 +199,7 @@ describe('nx-semantic-release e2e', () => {
             `generate @yuberto/nx-semantic-release:library ${project} --branches="${branches}"`
           );
 
-          verifySuccessfulRun(project, { branches });
+          verifySuccessfulLibraryGeneratorRun(project, { branches });
         }
       );
     });
@@ -135,7 +218,10 @@ describe('nx-semantic-release e2e', () => {
             `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches} --prereleaseBranches="${prereleaseBranches}"`
           );
 
-          verifySuccessfulRun(project, { branches, prereleaseBranches });
+          verifySuccessfulLibraryGeneratorRun(project, {
+            branches,
+            prereleaseBranches,
+          });
         }
       );
     });
@@ -147,7 +233,7 @@ describe('nx-semantic-release e2e', () => {
           `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches} --libraryGenerator=@nrwl/workspace:library`
         );
 
-        verifySuccessfulRun(project, { branches });
+        verifySuccessfulLibraryGeneratorRun(project, { branches });
       });
     });
 
@@ -163,11 +249,11 @@ describe('nx-semantic-release e2e', () => {
           `generate @yuberto/nx-semantic-release:library ${project} --branches=${branches} --directory=${directory}`
         );
 
-        verifySuccessfulRun(project, { branches, directory });
+        verifySuccessfulLibraryGeneratorRun(project, { branches, directory });
       });
     });
 
-    function verifySuccessfulRun(
+    function verifySuccessfulLibraryGeneratorRun(
       project: string,
       {
         branches,
@@ -221,66 +307,5 @@ describe('nx-semantic-release e2e', () => {
         expect(outputPrereleaseBranches.length).toBe(0);
       }
     }
-  });
-
-  describe('generator: workflow', () => {
-    describe('--type', () => {
-      describe('errors', () => {
-        it('should throw an error if an invalid type was given', async () => {
-          let thrown;
-          try {
-            await runNxCommandAsync(
-              `generate @yuberto/nx-semantic-release:workflow --type=invalid`
-            );
-          } catch (e) {
-            thrown = e;
-          }
-
-          expect(thrown).toBeDefined();
-        });
-      });
-
-      describe('type=github', () => {
-        it('should generate a github workflow', async () => {
-          await runNxCommandAsync(
-            `generate @yuberto/nx-semantic-release:workflow --type=github`
-          );
-
-          expect(() =>
-            checkFilesExist(join('.github', 'workflows', 'release.ci.yaml'))
-          ).not.toThrow();
-        });
-
-        describe('--nodeVersion', () => {
-          it('should generate a github workflow with the specified node version', async () => {
-            const nodeVersion = 18;
-            await runNxCommandAsync(
-              `generate @yuberto/nx-semantic-release:workflow --type=github --nodeVersion=18`
-            );
-
-            const output = readFile(
-              join('.github', 'workflows', 'release.ci.yaml')
-            );
-
-            expect(output).toContain(`Node.js ${nodeVersion}`);
-          });
-
-          describe('errors', () => {
-            it('should throw an error if invalid node version was given', async () => {
-              let thrown;
-              try {
-                await runNxCommandAsync(
-                  `generate @yuberto/nx-semantic-release:workflow --type=github --nodeVersion=invalid`
-                );
-              } catch (e) {
-                thrown = e;
-              }
-
-              expect(thrown).toBeDefined();
-            });
-          });
-        });
-      });
-    });
   });
 });

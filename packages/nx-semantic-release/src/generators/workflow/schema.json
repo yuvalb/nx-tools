@@ -11,11 +11,17 @@
       "default": "github",
       "x-prompt": "What ci would you like to use?"
     },
+    "branches": {
+      "type": "string",
+      "description": "List of comma-seprated release branches (default `main`)",
+      "default": "main",
+      "x-prompt": "What is your default branch (default `main`)?"
+    },
     "nodeVersion": {
       "type": ["integer", "string"],
       "description": "The node version the CI workflow should utilize",
       "default": "18"
     }
   },
-  "required": ["type"]
+  "required": ["type", "branches"]
 }

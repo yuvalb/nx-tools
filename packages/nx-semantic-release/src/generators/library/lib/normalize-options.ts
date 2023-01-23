@@ -1,4 +1,5 @@
 import { Tree, names, getWorkspaceLayout, offsetFromRoot } from '@nrwl/devkit';
+import { parseBranches } from '../../../tools/cli.tools';
 import { LibraryGeneratorSchema } from '../schema';
 
 export interface NormalizedSchema extends LibraryGeneratorSchema {
@@ -12,13 +13,6 @@ export interface NormalizedSchema extends LibraryGeneratorSchema {
   releaseBaseConfigPath: string;
   releaseToolPath: string;
   npmScope: string;
-}
-
-function parseBranches(branches: string): string[] {
-  return branches
-    .split(',')
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
 }
 
 export function normalizeOptions(

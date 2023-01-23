@@ -11,5 +11,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yuvalb/nx-tools.git"
-  }
+  },
+  "keywords": [
+    "nx",
+    "semantic-release",
+    "nx-plugin",
+    "nx-semantic-release"
+  ]
 }
